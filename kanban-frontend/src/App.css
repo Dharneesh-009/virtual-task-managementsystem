@@ -1,38 +1,30 @@
-.App {
-  text-align: center;
+/* Theme: Black */
+[data-theme="black"] {
+  --bg-color: #121212;
+  --sidebar-bg: #1e1e1e;
+  --board-bg: #1e1e1e;
+  --column-bg: #2a2a2a;
+  --task-bg: #3a3a3a;
+  --text-color: #f0f0f0;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+/* Theme: Purple */
+[data-theme="purple"] {
+  --bg-color: #2a0a45;
+  --sidebar-bg: #3a1a55;
+  --board-bg: #3a1a55;
+  --column-bg: #4a2a65;
+  --task-bg: #5a3a75;
+  --text-color: #f0f0f0;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+/* Theme: Neon Gradient */
+[data-theme="neon-gradient"] {
+  --bg-color: linear-gradient(135deg, #00f2fe, #4facfe, #a18cd1);
+  --sidebar-bg: rgba(0, 0, 0, 0.7);
+  --board-bg: rgba(0, 0, 0, 0.7);
+  --column-bg: rgba(0, 0, 0, 0.5);
+  --task-bg: rgba(255, 255, 255, 0.1);
+  --text-color: #ffffff;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}

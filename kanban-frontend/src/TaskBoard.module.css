@@ -1,63 +1,184 @@
-.container {
+.wrapper {
   display: flex;
   height: 100vh;
-  gap: 16px;
+  background: #f6f7fb;
+  font-family: 'Inter', sans-serif;
 }
+
 .sidebar {
-  width: 250px;
-  background: #f0f0f0;
-  padding: 16px;
-  border-right: 1px solid #ddd;
+  width: 260px;
+  background: #23242a;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 32px 0;
 }
-.board {
+.profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 48px;
+}
+.avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #444;
+  margin-bottom: 12px;
+}
+.username {
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+.nav {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-top: 24px;
+}
+.nav a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 32px;
+  color: #bbb;
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: background 0.2s, color 0.2s;
+  cursor: pointer;
+}
+.nav a.active,
+.nav a:hover {
+  background: #343549;
+  color: #fff;
+}
+
+.boardArea {
   flex: 1;
   display: flex;
+  flex-direction: column;
+  padding: 40px 48px;
+}
+.boardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+}
+.boardHeader h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #23242a;
+}
+.boardActions {
+  display: flex;
+  align-items: center;
   gap: 16px;
+}
+.icon {
+  font-size: 1.5rem;
+  color: #888;
+  cursor: pointer;
+}
+
+.createBtn {
+  margin-bottom: 24px;
+  font-weight: 600;
+  border-radius: 8px;
+}
+
+.board {
+  display: flex;
+  gap: 32px;
+  height: 100%;
 }
 .column {
   flex: 1;
-  background: #f8f9fa;
-  border-radius: 8px;
-  padding: 16px;
-  border: 1px solid #ddd;
+  background: #f9fafb;
+  border-radius: 16px;
+  padding: 24px 16px;
+  box-shadow: 0 2px 8px rgba(44,62,80,0.04);
+  min-width: 260px;
 }
-.column h2 {
-  text-align: center;
+.columnHeader {
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin-bottom: 18px;
+  color: #23242a;
 }
-.task {
+.taskCard {
   background: #fff;
-  border: 1px solid #eee;
-  border-radius: 4px;
-  margin: 8px 0;
-  padding: 16px 12px; 
-  min-height: 80px;   
-  font-size: 16px;    
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(44,62,80,0.06);
+  padding: 22px 18px; /* Increased padding for more space */
+  margin-bottom: 15px; /* Optional: more space between cards */
   display: flex;
-  align-items: center; 
-  justify-content: center; 
+  flex-direction: column;
+  gap: 12px; /* More space between elements */
+  border: 1px solid #f0f0f0;
+  min-height: 120px; /* Minimum height for the card */
 }
 
-.form {
-  margin: 20px;
-  padding: 20px;
-  border: 1px solid #ddd;
-  background: #f8f9fa;
-  border-radius: 8px;
+.taskTitle {
+  font-weight: 500;
+  font-size: 1.05rem;
+  color: #23242a;
 }
-.form input,
-.form textarea,
-.form select {
-  margin: 8px 0;
-  padding: 8px;
-  width: 100%;
+.metaRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.93rem;
+  color: #888;
 }
-.form button {
-  padding: 8px 16px;
-  background: #007bff;
-  color: white;
+.avatarSmall {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #444;
+  display: inline-block;
+}
+.metaDot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.metaLabel {
+  font-size: 0.95rem;
+}
+.cardActions {
+  display: flex;
+  gap: 10px; /* More space between buttons */
+  margin-top: 14px; /* More space above buttons */
+}
+.cardActions button {
+  padding: 8px 16px; /* Larger, more clickable buttons */
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
+  background: #e0e0e0;
   cursor: pointer;
+  font-size: 0.95rem;
+  transition: background 0.2s;
 }
+.cardActions button:hover {
+  background: #d0d0d0;
+}
+
+.icon {
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: var(--text-color);
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 
