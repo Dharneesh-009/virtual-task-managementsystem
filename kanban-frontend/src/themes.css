@@ -1,0 +1,30 @@
+/* Light Mode */
+[data-theme="light"] {
+  --bg-color: #f6f7fb;
+  --sidebar-bg: #ffffff;
+  --board-bg: #ffffff;
+  --column-bg: #f9fafb;
+  --task-bg: #ffffff;
+  --text-color: #23242a;
+}
+
+/* Dark Mode */
+[data-theme="dark"] {
+  --bg-color: #121212;
+  --sidebar-bg: #1e1e1e;
+  --board-bg: #1e1e1e;
+  --column-bg: #2a2a2a;
+  --task-bg: #3a3a3a;
+  --text-color: #f0f0f0;
+}
+
+/* Optional: Theme toggle button */
+.theme-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  background: var(--sidebar-bg);
+  color: var(--text-color);
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
