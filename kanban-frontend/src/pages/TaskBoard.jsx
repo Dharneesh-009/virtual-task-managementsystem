@@ -2,11 +2,13 @@ import React, { useState, useEffect } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import { FaHome, FaComments, FaBell, FaChartBar, FaSignOutAlt, FaMoon, FaUserCircle, FaSun } from "react-icons/fa";
 import styles from './TaskBoard.module.css';
-import { useNavigate } from "react-router-dom";
-import { Link } from 'react-router-dom';
+import { useNavigate, Link } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 
 export default function TaskBoard({ isDarkMode, setIsDarkMode }) {
   const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+  const [username, setUsername] = useState("");
   const [tasks, setTasks] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [newTask, setNewTask] = useState({
@@ -15,7 +17,19 @@ export default function TaskBoard({ isDarkMode, setIsDarkMode }) {
     status: "TODO"
   });
 
-  const token = localStorage.getItem("token");
+  // Decode token for username
+  useEffect(() => {
+    if (token) {
+      try {
+        const decoded = jwtDecode(token);
+        setUsername(decoded.username);
+      } catch (err) {
+        console.error("Invalid token:", err);
+        localStorage.removeItem("token");
+        navigate("/");
+      }
+    }
+  }, [token, navigate]);
 
   // Redirect to login if no token
   useEffect(() => {
@@ -24,17 +38,28 @@ export default function TaskBoard({ isDarkMode, setIsDarkMode }) {
     }
   }, [token, navigate]);
 
-  useEffect(() => {
-    fetch("http://localhost:8080/tasks", {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
+  // Fetch tasks from backend
+ useEffect(() => {
+  fetch("http://localhost:8080/tasks", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`
+    }
+  })
+    .then((res) => {
+      if (!res.ok) throw new Error("Failed to fetch tasks");
+      return res.json();
     })
-      .then(res => res.json())
-      .then(data => setTasks(data))
-      .catch(err => console.error("Error fetching tasks:", err));
-  }, [token]);
+    .then((data) => setTasks(data))
+    .catch((err) => {
+      console.error("Error fetching tasks:", err);
+      alert("Failed to load tasks. Please login again or check your server.");
+    });
+}, [token]);
 
+
+  // Get task metadata
   const getTaskMeta = (task) => {
     if (task.status === "TODO") return { label: "Todo", avatar: true };
     if (task.status === "IN_PROGRESS") return { label: "In Progress", color: "#ff5f7e" };
@@ -42,6 +67,7 @@ export default function TaskBoard({ isDarkMode, setIsDarkMode }) {
     return {};
   };
 
+  // Update task status
   const updateTaskStatus = (taskId, newStatus) => {
     const taskToUpdate = tasks.find(t => t.id === taskId);
     if (taskToUpdate) {
@@ -61,6 +87,7 @@ export default function TaskBoard({ isDarkMode, setIsDarkMode }) {
     }
   };
 
+  // Delete task
   const handleDelete = (taskId) => {
     if (window.confirm("Delete this task?")) {
       fetch(`http://localhost:8080/tasks/${taskId}`, {
@@ -71,51 +98,63 @@ export default function TaskBoard({ isDarkMode, setIsDarkMode }) {
       })
         .then(() => {
           setTasks(tasks.filter(t => t.id !== taskId));
-        });
+        })
+        .catch(err => console.error("Error deleting task:", err));
     }
   };
 
+  // Logout
   const handleLogout = () => {
     localStorage.removeItem("token");
-    navigate("/login");
+    navigate("/");
   };
 
-  const handleCreateTask = () => {
-    fetch("http://localhost:8080/tasks", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
-      },
-      body: JSON.stringify(newTask)
-    })
-      .then(res => res.json())
-      .then(task => {
-        setTasks([...tasks, task]);
-        setNewTask({ title: "", description: "", status: "TODO" });
-        setShowModal(false);
-      })
-      .catch(err => console.error("Error creating task:", err));
+  // Create new task
+  const handleCreateTask = async () => {
+    try {
+      const res = await fetch("http://localhost:8080/tasks", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify(newTask)
+      });
+
+      if (!res.ok) {
+        const errText = await res.text();
+        throw new Error(errText || "Error creating task");
+      }
+
+      const task = await res.json();
+      setTasks([...tasks, task]);
+      setNewTask({ title: "", description: "", status: "TODO" });
+      setShowModal(false);
+    } catch (err) {
+      console.error("Error creating task:", err);
+      alert("Failed to create task: " + err.message);
+    }
   };
 
   return (
     <div className={styles.wrapper}>
       {/* Sidebar */}
       <aside className={styles.sidebar}>
-        <div className={styles.profile}>
-          <div className={styles.avatar}></div>
-          <div className={styles.username}>User</div>
+        <div className={styles.sidebarTop}>
+          <div className={styles.profile}>
+            <div className={styles.avatar}></div>
+            <div className={styles.username}>{username}</div>
+          </div>
+          <nav className={styles.nav}>
+            <Link to="/dashboard" className={styles.active}><FaHome /> Dashboard</Link>
+            <Link to="/chat"><FaComments /> Team Chat</Link>
+            <Link to="/notifications"><FaBell /> Notifications</Link>
+            <Link to="/analytics"><FaChartBar /> Analytics</Link>
+          </nav>
         </div>
-        <nav className={styles.nav}>
-          <Link to="/dashboard" className={styles.active}><FaHome /> Dashboard</Link>
-          <Link to="/chat"><FaComments /> Team Chat</Link>
-          <Link to="/notifications"><FaBell /> Notifications</Link>
-          <Link to="/analytics"><FaChartBar /> Analytics</Link>
-          <button onClick={handleLogout} className={styles.logoutButton}>
-  <FaSignOutAlt /> Logout
-</button>
-
-        </nav>
+        <button onClick={handleLogout} className={styles.logoutButton}>
+          <FaSignOutAlt /> Logout
+        </button>
       </aside>
 
       {/* Main Board */}
@@ -139,8 +178,8 @@ export default function TaskBoard({ isDarkMode, setIsDarkMode }) {
           <Modal.Header closeButton>
             <Modal.Title>Create New Task</Modal.Title>
           </Modal.Header>
-          <Modal.Body>
-            <Form>
+          <Form onSubmit={(e) => { e.preventDefault(); handleCreateTask(); }}>
+            <Modal.Body>
               <Form.Group className="mb-3">
                 <Form.Label>Title</Form.Label>
                 <Form.Control
@@ -148,6 +187,7 @@ export default function TaskBoard({ isDarkMode, setIsDarkMode }) {
                   value={newTask.title}
                   onChange={(e) => setNewTask({ ...newTask, title: e.target.value })}
                   placeholder="Enter task title"
+                  required
                 />
               </Form.Group>
               <Form.Group className="mb-3">
@@ -157,6 +197,7 @@ export default function TaskBoard({ isDarkMode, setIsDarkMode }) {
                   value={newTask.description}
                   onChange={(e) => setNewTask({ ...newTask, description: e.target.value })}
                   placeholder="Enter task description"
+                  required
                 />
               </Form.Group>
               <Form.Group className="mb-3">
@@ -170,16 +211,14 @@ export default function TaskBoard({ isDarkMode, setIsDarkMode }) {
                   <option value="DONE">Done</option>
                 </Form.Select>
               </Form.Group>
-            </Form>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={() => setShowModal(false)}>
-              Close
-            </Button>
-            <Button variant="primary" onClick={handleCreateTask}>
-              Save Task
-            </Button>
-          </Modal.Footer>
+            </Modal.Body>
+           <Modal.Footer>
+  <Button variant="secondary" onClick={() => setShowModal(false)}>Close</Button>
+  <Button variant="primary" type="submit">
+    Save Task
+  </Button>
+</Modal.Footer>
+          </Form>
         </Modal>
 
         {/* Kanban Board */}
