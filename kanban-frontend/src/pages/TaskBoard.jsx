@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
-import { FaHome, FaComments, FaBell, FaChartBar, FaSignOutAlt, FaMoon, FaUserCircle, FaSun } from "react-icons/fa";
+import { FaHome,  FaBell, FaChartBar, FaSignOutAlt,  FaUserCircle} from "react-icons/fa";
 import styles from './TaskBoard.module.css';
 import { useNavigate, Link } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
@@ -147,7 +147,7 @@ export default function TaskBoard({ isDarkMode, setIsDarkMode }) {
           </div>
           <nav className={styles.nav}>
             <Link to="/dashboard" className={styles.active}><FaHome /> Dashboard</Link>
-            <Link to="/chat"><FaComments /> Team Chat</Link>
+            
             <Link to="/notifications"><FaBell /> Notifications</Link>
             <Link to="/analytics"><FaChartBar /> Analytics</Link>
           </nav>
@@ -162,9 +162,7 @@ export default function TaskBoard({ isDarkMode, setIsDarkMode }) {
         <header className={styles.boardHeader}>
           <h2>Dashboard</h2>
           <div className={styles.boardActions}>
-            <button onClick={() => setIsDarkMode(!isDarkMode)} className={styles.icon}>
-              {isDarkMode ? <FaSun /> : <FaMoon />}
-            </button>
+            
             <FaUserCircle className={styles.icon} />
           </div>
         </header>

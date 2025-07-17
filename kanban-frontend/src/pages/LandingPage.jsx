@@ -73,7 +73,7 @@ const LandingPage = () => {
     Get Started
   </Button>
 </Link>
-              <Button variant="outline-light">Try a Demo</Button>
+            
             </div>
           </Col>
 
