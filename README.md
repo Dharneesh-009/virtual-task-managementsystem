@@ -7,18 +7,13 @@ A Kanban-style project management tool for student teams, enabling task assignme
 - Visual Kanban board (To Do, In Progress, Done)
 - Task creation, assignment, and editing
 - Real-time updates and notifications
-- Team chat for collaboration
 - Analytics dashboard
 
 ## Tech Stack
 - Backend: Java, Spring Boot, Hibernate, MySQL/PostgreSQL
-- Frontend: React.js (or Angular), Material-UI
-- Real-Time: WebSockets (Spring WebSocket, SockJS)
-- DevOps: Docker, Jenkins
+- Frontend: React.js, Material-UI
+- DevOps: Docker
 
-## Team Members
-- Swetha - Frontend 
-- Dharneesh - Backend
 
 ## Getting Started
 1. Clone the repository
