@@ -11,8 +11,7 @@ A Kanban-style project management tool for student teams, enabling task assignme
 
 ## Tech Stack
 - Backend: Java, Spring Boot, Hibernate, MySQL/PostgreSQL
-- Frontend: React.js (or Angular), Material-UI
-- Real-Time: WebSockets (Spring WebSocket, SockJS)
+- Frontend: React.js, Material-UI
 - DevOps: Docker
 
 
