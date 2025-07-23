@@ -7,7 +7,6 @@ A Kanban-style project management tool for student teams, enabling task assignme
 - Visual Kanban board (To Do, In Progress, Done)
 - Task creation, assignment, and editing
 - Real-time updates and notifications
-- Team chat for collaboration
 - Analytics dashboard
 
 ## Tech Stack
