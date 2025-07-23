@@ -14,11 +14,8 @@ A Kanban-style project management tool for student teams, enabling task assignme
 - Backend: Java, Spring Boot, Hibernate, MySQL/PostgreSQL
 - Frontend: React.js (or Angular), Material-UI
 - Real-Time: WebSockets (Spring WebSocket, SockJS)
-- DevOps: Docker, Jenkins
+- DevOps: Docker
 
-## Team Members
-- Swetha - Frontend 
-- Dharneesh - Backend
 
 ## Getting Started
 1. Clone the repository
